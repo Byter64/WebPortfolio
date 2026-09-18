@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "locale": "ja",
+    "status": "published",
+    "nativeName": "日本語",
+    "direction": "ltr"
+  },
+  "site": {
+    "title": "Yannik – ポートフォリオ",
+    "description": "ゲームデザイン、プログラミング、ハードウェアデザイン、ウェブデザインのポートフォリオ。"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "allProjects": "すべてのプロジェクト",
+    "mainLabel": "メインナビゲーション",
+    "skipToContent": "本文へ移動",
+    "languageLabel": "言語を選択",
+    "languageUnavailable": "準備中"
+  },
+  "home": {
+    "eyebrow": "ポートフォリオ",
+    "title": "こんにちは、{owner}です。",
+    "intro": "デザイン、コード、ハードウェアが交わる領域で、デジタル体験を制作しています。",
+    "selectionEyebrow": "ピックアップ",
+    "projectsTitle": "プロジェクト",
+    "viewAll": "すべてのプロジェクトを見る"
+  },
+  "portfolio": {
+    "eyebrow": "ポートフォリオ",
+    "overviewEyebrow": "概要",
+    "allProjectsTitle": "すべてのプロジェクト",
+    "allProjectsDescription": "デザイン、開発、フィジカルプロトタイプをまとめて紹介します。",
+    "allProjectsMetaDescription": "ポートフォリオ内のすべてのプロジェクト。",
+    "projectCountOne": "{count}件のプロジェクト",
+    "projectCountOther": "{count}件のプロジェクト",
+    "empty": "このカテゴリーには、まだプロジェクトがありません。",
+    "sectionLabel": "{tag}のプロジェクト",
+    "tags": {
+      "game-design": {
+        "label": "ゲームデザイン",
+        "description": "ゲームシステム、インタラクション、ビジュアルコミュニケーション。"
+      },
+      "programming": {
+        "label": "プログラミング",
+        "description": "技術コンセプト、プロトタイプ、堅牢な実装。"
+      },
+      "hardware-design": {
+        "label": "ハードウェアデザイン",
+        "description": "物理インターフェース、電子回路、機能プロトタイプ。"
+      },
+      "web-design": {
+        "label": "ウェブデザイン",
+        "description": "レスポンシブなインターフェースとアクセシブルなデジタル表現。"
+      }
+    }
+  },
+  "project": {
+    "eyebrow": "サンプルプロジェクト",
+    "view": "プロジェクトを見る",
+    "backToAll": "すべてのプロジェクトへ戻る",
+    "backToPortfolio": "{portfolio}へ戻る",
+    "categoriesLabel": "プロジェクトカテゴリー",
+    "year": "年",
+    "role": "担当",
+    "imageUnavailable": "{project}のプレビューは利用できません"
+  },
+  "footer": {
+    "copyright": "© {year} {owner}",
+    "backToTop": "ページ上部へ"
+  },
+  "languageIndex": {
+    "title": "言語を選択",
+    "description": "ポートフォリオの言語を選んでください。",
+    "available": "利用可能",
+    "unavailable": "準備中"
+  },
+  "redirect": {
+    "title": "リダイレクト",
+    "message": "このページは言語別のアドレスで表示されるようになりました。",
+    "link": "日本語ページへ"
+  },
+  "projects": {
+    "signal-runner": {
+      "title": "Signal Runner",
+      "description": "動き、リズム、明確な視覚的合図を組み合わせた、スピード感のあるゲームコンセプトです。",
+      "imageAlt": "光るコースを走る未来的なプレイヤーキャラクター",
+      "imageCaption": null,
+      "role": "コンセプト、ゲームデザイン、プロトタイピング",
+      "content": [
+        {
+          "heading": "アイデア",
+          "paragraphs": [
+            "Signal Runnerは、少数の的確な合図によって、スピード感のある体験をどこまで分かりやすくできるかを探る作品です。移動と障害物は、共通の視覚的なリズムに従います。"
+          ]
+        },
+        {
+          "heading": "プロトタイプ",
+          "paragraphs": [
+            "プレイ可能なプロトタイプでは、移動の感触、即時のフィードバック、短い反復サイクルを重視しました。各メカニクスが明確に伝わるよう、システムとビジュアルを一体的に開発しています。"
+          ]
+        }
+      ]
+    },
+    "modular-input-deck": {
+      "title": "Modular Input Deck",
+      "description": "クリエイティブな作業フローと迅速なハードウェア試作に対応する、カスタマイズ可能な操作パネルです。",
+      "imageAlt": "回転ノブとスイッチを備えたモジュール式入力デバイス",
+      "imageCaption": null,
+      "role": "インダストリアルデザイン、ハードウェアプロトタイピング",
+      "content": [
+        {
+          "heading": "モジュールを前提とした設計",
+          "paragraphs": [
+            "入力デッキは、回転ノブ、ボタン、スライダーを交換可能なモジュールとして組み合わせています。これにより、用途に応じて操作面を柔軟に変更できます。"
+          ]
+        },
+        {
+          "heading": "組み立てから操作まで",
+          "paragraphs": [
+            "組み立て、配線、触覚による位置把握を設計の初期段階から考慮しました。シアンのステータス表示によって、ポートフォリオのビジュアル言語を実物の製品にも取り入れています。"
+          ]
+        }
+      ]
+    },
+    "portfolio-system": {
+      "title": "ポートフォリオシステム",
+      "description": "プロジェクトデータを一元管理し、柔軟なテーマ別表示を生成する静的ポートフォリオです。",
+      "imageAlt": "ノートパソコンとスマートフォンに表示されたレスポンシブなポートフォリオ",
+      "imageCaption": null,
+      "role": "コンセプト、デザイン、フロントエンド開発",
+      "content": [
+        {
+          "heading": "ひとつの情報源から複数の表示へ",
+          "paragraphs": [
+            "すべてのプロジェクト情報を一か所で管理しています。静的ビルドはその情報から、全体一覧、テーマ別ポートフォリオ、各プロジェクトページを生成します。"
+          ]
+        },
+        {
+          "heading": "静的でありながらコンテキストを保持",
+          "paragraphs": [
+            "プロジェクトへのリンクは、遷移元をURLパラメーターとして保持します。詳細ページはそのコンテキストを検証し、適切なテーマ一覧へ戻れるようにしながら、直接アクセスにも対応しています。"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "locale": "es",
+    "status": "published",
+    "nativeName": "Español",
+    "direction": "ltr"
+  },
+  "site": {
+    "title": "Yannik – Portafolio",
+    "description": "Portafolio de diseño de videojuegos, programación, diseño de hardware y diseño web."
+  },
+  "navigation": {
+    "home": "Inicio",
+    "allProjects": "Todos los proyectos",
+    "mainLabel": "Navegación principal",
+    "skipToContent": "Saltar al contenido",
+    "languageLabel": "Seleccionar idioma",
+    "languageUnavailable": "próximamente"
+  },
+  "home": {
+    "eyebrow": "Portafolio",
+    "title": "Hola, soy {owner}.",
+    "intro": "Creo experiencias digitales en la intersección entre diseño, código y hardware.",
+    "selectionEyebrow": "Selección",
+    "projectsTitle": "Proyectos",
+    "viewAll": "Ver todos los proyectos"
+  },
+  "portfolio": {
+    "eyebrow": "Portafolio",
+    "overviewEyebrow": "Resumen",
+    "allProjectsTitle": "Todos los proyectos",
+    "allProjectsDescription": "Diseño, desarrollo y prototipos físicos reunidos en un solo lugar.",
+    "allProjectsMetaDescription": "Todos los proyectos del portafolio.",
+    "projectCountOne": "{count} proyecto",
+    "projectCountOther": "{count} proyectos",
+    "empty": "Todavía no hay proyectos en esta categoría.",
+    "sectionLabel": "Proyectos de {tag}",
+    "tags": {
+      "game-design": {
+        "label": "Diseño de videojuegos",
+        "description": "Sistemas de juego, interacción y comunicación visual."
+      },
+      "programming": {
+        "label": "Programación",
+        "description": "Conceptos técnicos, prototipos e implementaciones robustas."
+      },
+      "hardware-design": {
+        "label": "Diseño de hardware",
+        "description": "Interfaces físicas, electrónica y prototipos funcionales."
+      },
+      "web-design": {
+        "label": "Diseño web",
+        "description": "Interfaces adaptables y presentaciones digitales accesibles."
+      }
+    }
+  },
+  "project": {
+    "eyebrow": "Proyecto de ejemplo",
+    "view": "Ver proyecto",
+    "backToAll": "Volver a todos los proyectos",
+    "backToPortfolio": "Volver a {portfolio}",
+    "categoriesLabel": "Categorías del proyecto",
+    "year": "Año",
+    "role": "Función",
+    "imageUnavailable": "La vista previa de {project} no está disponible"
+  },
+  "footer": {
+    "copyright": "© {year} {owner}",
+    "backToTop": "Volver arriba"
+  },
+  "languageIndex": {
+    "title": "Seleccionar idioma",
+    "description": "Elige el idioma del portafolio.",
+    "available": "Disponible",
+    "unavailable": "Próximamente"
+  },
+  "redirect": {
+    "title": "Redirección",
+    "message": "Esta página ahora está disponible en una dirección específica para cada idioma.",
+    "link": "Ir a la página en español"
+  },
+  "projects": {
+    "signal-runner": {
+      "title": "Signal Runner",
+      "description": "Un concepto de juego dinámico que combina movimiento, ritmo y señales visuales claras.",
+      "imageAlt": "Personaje futurista corriendo por una pista luminosa",
+      "imageCaption": null,
+      "role": "Concepto, diseño de videojuegos y prototipado",
+      "content": [
+        {
+          "heading": "La idea",
+          "paragraphs": [
+            "Signal Runner explora cómo unas pocas señales precisas pueden hacer que una experiencia dinámica resulte fácil de interpretar. El movimiento y los obstáculos siguen un ritmo visual común."
+          ]
+        },
+        {
+          "heading": "El prototipo",
+          "paragraphs": [
+            "El prototipo jugable se centra en la sensación de movimiento, la respuesta inmediata y los ciclos breves de iteración. Los sistemas y el diseño visual se desarrollaron conjuntamente para que cada mecánica resulte clara."
+          ]
+        }
+      ]
+    },
+    "modular-input-deck": {
+      "title": "Modular Input Deck",
+      "description": "Un panel de control personalizable para flujos de trabajo creativos y prototipos rápidos de hardware.",
+      "imageAlt": "Dispositivo de entrada modular con controles giratorios e interruptores",
+      "imageCaption": null,
+      "role": "Diseño industrial y prototipado de hardware",
+      "content": [
+        {
+          "heading": "Diseñado para ser modular",
+          "paragraphs": [
+            "El panel combina controles giratorios, botones y deslizadores en módulos intercambiables. De este modo, la interfaz puede adaptarse a diferentes tareas."
+          ]
+        },
+        {
+          "heading": "Del montaje a la interacción",
+          "paragraphs": [
+            "El diseño tiene en cuenta desde el principio el montaje, el tendido de cables y la orientación táctil. Los indicadores de estado en cian trasladan el lenguaje visual del portafolio al producto físico."
+          ]
+        }
+      ]
+    },
+    "portfolio-system": {
+      "title": "Sistema de portafolio",
+      "description": "Un portafolio generado de forma estática con datos de proyecto centralizados y vistas temáticas flexibles.",
+      "imageAlt": "Portafolio adaptable mostrado en un portátil y un teléfono inteligente",
+      "imageCaption": null,
+      "role": "Concepto, diseño y desarrollo front-end",
+      "content": [
+        {
+          "heading": "Una fuente, muchas vistas",
+          "paragraphs": [
+            "Toda la información de los proyectos se mantiene en un único lugar. A partir de ella, el proceso de generación estática crea la vista general, los portafolios temáticos y cada página de proyecto."
+          ]
+        },
+        {
+          "heading": "Estático y consciente del contexto",
+          "paragraphs": [
+            "Los enlaces de los proyectos conservan su origen mediante un parámetro de URL. La página de detalle valida este contexto y devuelve a la vista temática correspondiente, sin dejar de ser accesible directamente."
+          ]
+        }
+      ]
+    }
+  }
+}

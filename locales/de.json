@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "locale": "de",
+    "status": "published",
+    "nativeName": "Deutsch",
+    "direction": "ltr"
+  },
+  "site": {
+    "title": "Yannik – Portfolio",
+    "description": "Portfolio für Game Design, Programming, Hardware Design und Web Design."
+  },
+  "navigation": {
+    "home": "Start",
+    "allProjects": "Alle Projekte",
+    "mainLabel": "Hauptnavigation",
+    "skipToContent": "Zum Inhalt springen",
+    "languageLabel": "Sprache auswählen",
+    "languageUnavailable": "in Vorbereitung"
+  },
+  "home": {
+    "eyebrow": "Portfolio",
+    "title": "Hallo, ich bin {owner}.",
+    "intro": "Ich entwickle digitale Erlebnisse an der Schnittstelle von Gestaltung, Code und Hardware.",
+    "selectionEyebrow": "Auswahl",
+    "projectsTitle": "Projekte",
+    "viewAll": "Alle Projekte ansehen"
+  },
+  "portfolio": {
+    "eyebrow": "Portfolio",
+    "overviewEyebrow": "Übersicht",
+    "allProjectsTitle": "Alle Projekte",
+    "allProjectsDescription": "Gestaltung, Entwicklung und physische Prototypen in einer gemeinsamen Übersicht.",
+    "allProjectsMetaDescription": "Alle Projekte im Portfolio.",
+    "projectCountOne": "{count} Projekt",
+    "projectCountOther": "{count} Projekte",
+    "empty": "Für dieses Thema sind noch keine Projekte eingetragen.",
+    "sectionLabel": "Projekte in {tag}",
+    "tags": {
+      "game-design": {
+        "label": "Game Design",
+        "description": "Spielsysteme, Interaktion und visuelle Kommunikation."
+      },
+      "programming": {
+        "label": "Programming",
+        "description": "Technische Konzepte, Prototypen und robuste Implementierungen."
+      },
+      "hardware-design": {
+        "label": "Hardware Design",
+        "description": "Physische Schnittstellen, Elektronik und funktionale Prototypen."
+      },
+      "web-design": {
+        "label": "Web Design",
+        "description": "Responsive Interfaces und zugängliche digitale Präsentation."
+      }
+    }
+  },
+  "project": {
+    "eyebrow": "Beispielprojekt",
+    "view": "Projekt ansehen",
+    "backToAll": "Zurück zu allen Projekten",
+    "backToPortfolio": "Zurück zu {portfolio}",
+    "categoriesLabel": "Projektkategorien",
+    "year": "Jahr",
+    "role": "Rolle",
+    "imageUnavailable": "Vorschau für {project} nicht verfügbar"
+  },
+  "footer": {
+    "copyright": "© {year} {owner}",
+    "backToTop": "Nach oben"
+  },
+  "languageIndex": {
+    "title": "Sprache auswählen",
+    "description": "Wähle die Sprache für das Portfolio.",
+    "available": "Verfügbar",
+    "unavailable": "In Vorbereitung"
+  },
+  "redirect": {
+    "title": "Weiterleitung",
+    "message": "Diese Seite ist jetzt unter einer sprachspezifischen Adresse erreichbar.",
+    "link": "Zur deutschen Seite"
+  },
+  "projects": {
+    "signal-runner": {
+      "title": "Signal Runner",
+      "description": "Ein schnelles Spielkonzept, das Bewegung, Rhythmus und klare visuelle Signale verbindet.",
+      "imageAlt": "Futuristische Spielfigur auf einer leuchtenden Strecke",
+      "imageCaption": null,
+      "role": "Konzept, Game Design und Prototyping",
+      "content": [
+        {
+          "heading": "Die Idee",
+          "paragraphs": [
+            "Signal Runner untersucht, wie wenige, präzise Signale eine schnelle Spielerfahrung lesbar machen können. Bewegung und Hindernisse folgen einem gemeinsamen visuellen Rhythmus."
+          ]
+        },
+        {
+          "heading": "Der Prototyp",
+          "paragraphs": [
+            "Der spielbare Prototyp konzentriert sich auf Bewegungsgefühl, unmittelbares Feedback und kurze Iterationszyklen. Systeme und Gestaltung wurden gemeinsam entwickelt, damit jede Mechanik klar erkennbar bleibt."
+          ]
+        }
+      ]
+    },
+    "modular-input-deck": {
+      "title": "Modular Input Deck",
+      "description": "Ein anpassbares Bedienpult für kreative Arbeitsabläufe und schnelle Hardware-Prototypen.",
+      "imageAlt": "Modulares Eingabegerät mit Drehreglern und Schaltern",
+      "imageCaption": null,
+      "role": "Industrial Design und Hardware-Prototyping",
+      "content": [
+        {
+          "heading": "Modular gedacht",
+          "paragraphs": [
+            "Das Input Deck verbindet Drehregler, Taster und Schieberegler in austauschbaren Modulen. Dadurch kann die Bedienoberfläche an unterschiedliche Aufgaben angepasst werden."
+          ]
+        },
+        {
+          "heading": "Vom Aufbau zur Bedienung",
+          "paragraphs": [
+            "Der Entwurf berücksichtigt Montage, Kabelführung und haptische Orientierung von Beginn an. Die cyanfarbenen Statusanzeigen greifen die visuelle Sprache des Portfolios auf."
+          ]
+        }
+      ]
+    },
+    "portfolio-system": {
+      "title": "Portfolio-System",
+      "description": "Ein statisch generiertes Portfolio mit zentralen Projektdaten und flexiblen Themenansichten.",
+      "imageAlt": "Responsives Portfolio auf einem Laptop und Smartphone",
+      "imageCaption": null,
+      "role": "Konzeption, Gestaltung und Frontend-Entwicklung",
+      "content": [
+        {
+          "heading": "Ein Inhalt, viele Ansichten",
+          "paragraphs": [
+            "Alle Projektinformationen werden an einer zentralen Stelle gepflegt. Der statische Build erzeugt daraus die allgemeine Übersicht, thematische Portfolios und jede einzelne Projektseite."
+          ]
+        },
+        {
+          "heading": "Statisch und kontextbewusst",
+          "paragraphs": [
+            "Projektlinks tragen den Ursprung als URL-Parameter weiter. Die Detailseite validiert diesen Kontext und führt gezielt zur passenden Themenübersicht zurück, bleibt aber auch direkt erreichbar."
+          ]
+        }
+      ]
+    }
+  }
+}
