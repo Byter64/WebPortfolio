@@ -34,12 +34,12 @@ export function renderLanguageIndex(i18n) {
     <link rel="canonical" href="${absoluteRootUrl()}" />
     ${alternates}
     <link rel="alternate" hreflang="x-default" href="${absoluteRootUrl()}" />
-    <link rel="icon" type="image/svg+xml" href="${favicon()}" />
+    <link rel="icon" type="image/png" sizes="48x48" href="${favicon()}" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="language-index-page">
     <main id="inhalt" class="language-index">
-      <a class="brand" href="index.html" aria-label="${escapeHtml(site.owner)}">Y<span aria-hidden="true">.</span></a>
+      <a class="brand" href="index.html" aria-label="${escapeHtml(site.owner)}"><img class="brand-logo" src="assets/site-logo.png" alt="" width="1080" height="1080" /></a>
       <p class="eyebrow">Portfolio</p>
       <h1>${escapeHtml(i18n.t("languageIndex.title"))}</h1>
       <p class="intro">${escapeHtml(i18n.t("languageIndex.description"))}</p>

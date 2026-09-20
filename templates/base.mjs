@@ -103,14 +103,14 @@ export function renderBaseLayout({
     <title>${escapeHtml(title)}</title>
     <link rel="canonical" href="${absolutePageUrl(i18n.locale.code, page)}" />
     ${renderAlternateLinks(page)}
-    <link rel="icon" type="image/svg+xml" href="${favicon()}" />
+    <link rel="icon" type="image/png" sizes="48x48" href="${favicon(rootPrefix)}" />
     <link rel="stylesheet" href="${rootPrefix}styles.css" />
     <script src="${rootPrefix}site.js" defer></script>
   </head>
   <body${bodyClass ? ` class="${bodyClass}"` : ""}>
     <a class="skip-link" href="#inhalt">${escapeHtml(i18n.t("navigation.skipToContent"))}</a>
     <header class="site-header">
-      <a class="brand" href="${pageHref(rootPrefix, i18n.locale.code, { type: "home" })}" aria-label="${escapeHtml(site.owner)} – ${escapeHtml(i18n.t("navigation.home"))}">Y<span aria-hidden="true">.</span></a>
+      <a class="brand" href="${pageHref(rootPrefix, i18n.locale.code, { type: "home" })}" aria-label="${escapeHtml(site.owner)} – ${escapeHtml(i18n.t("navigation.home"))}"><img class="brand-logo" src="${rootPrefix}assets/site-logo.png" alt="" width="1080" height="1080" /></a>
       <div class="header-navigation">
         ${renderNavigation({ i18n, rootPrefix, activeId })}
         ${renderLanguageSwitcher({ i18n, rootPrefix, page })}

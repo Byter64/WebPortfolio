@@ -1,6 +1,6 @@
 import { escapeHtml, favicon } from "./helpers.mjs";
 
-export function renderLegacyRedirect({ i18n, target, canonical }) {
+export function renderLegacyRedirect({ i18n, target, canonical, rootPrefix }) {
   return `<!doctype html>
 <html lang="${i18n.locale.code}" dir="${i18n.locale.direction}">
   <head>
@@ -9,7 +9,7 @@ export function renderLegacyRedirect({ i18n, target, canonical }) {
     <meta http-equiv="refresh" content="0; url=${escapeHtml(target)}" />
     <meta name="robots" content="noindex" />
     <link rel="canonical" href="${escapeHtml(canonical)}" />
-    <link rel="icon" type="image/svg+xml" href="${favicon()}" />
+    <link rel="icon" type="image/png" sizes="48x48" href="${favicon(rootPrefix)}" />
     <title>${escapeHtml(i18n.t("redirect.title"))}</title>
   </head>
   <body>

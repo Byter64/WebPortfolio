@@ -26,8 +26,8 @@ p, h1, h2, h3, a, span { overflow-wrap: anywhere; }
 .skip-link:focus { transform: translateY(0); }
 .site-header, main, footer { width: min(100% - 2rem, 78rem); margin-inline: auto; }
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 5.5rem; border-bottom: 1px solid var(--border); }
-.brand { color: var(--text); font-size: 1.35rem; font-weight: 800; text-decoration: none; }
-.brand span { color: var(--accent); }
+.brand { display: inline-flex; flex: 0 0 auto; align-items: center; color: var(--text); text-decoration: none; }
+.brand-logo { display: block; width: 3.5rem; height: 3.5rem; object-fit: contain; }
 .header-navigation { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; min-width: 0; }
 .primary-navigation { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.35rem; }
 .primary-navigation a { padding: 0.55rem 0.7rem; border-radius: 0.5rem; color: var(--muted); font-size: 0.9rem; font-weight: 650; text-decoration: none; }
@@ -122,6 +122,7 @@ footer a { text-underline-offset: 0.25rem; }
   .project-visual { width: min(100%, 44rem); }
 }
 @media (max-width: 40rem) {
+  .brand-logo { width: 3rem; height: 3rem; }
   .site-header, main, footer { width: min(100% - 1.25rem, 78rem); }
   .primary-navigation { flex-wrap: wrap; justify-content: flex-start; width: 100%; margin: 0; padding: 0 0 0.4rem; }
   .language-switcher { max-width: 100%; }

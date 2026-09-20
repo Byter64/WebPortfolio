@@ -40,6 +40,6 @@ export function absoluteRootUrl() {
   return new URL("index.html", site.canonicalOrigin).href;
 }
 
-export function favicon() {
-  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111827'/%3E%3Cpath d='M17 18l15 29 15-29h-9l-6 13-6-13z' fill='%237dd3fc'/%3E%3C/svg%3E";
+export function favicon(rootPrefix = "") {
+  return `${rootPrefix}assets/favicon-48.png`;
 }

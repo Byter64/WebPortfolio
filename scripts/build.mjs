@@ -159,6 +159,7 @@ async function writeLegacyRedirects(i18n) {
           i18n,
           target: redirect.target,
           canonical: redirect.canonical,
+          rootPrefix: "../".repeat(redirect.path.split("/").length - 1),
         }),
       ),
     ),
