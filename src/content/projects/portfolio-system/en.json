@@ -1,0 +1,11 @@
+{
+  "title": "Portfolio System",
+  "description": "A statically generated portfolio with centralized project data and flexible thematic views.",
+  "imageAlt": "Responsive portfolio displayed on a laptop and smartphone",
+  "imageCaption": null,
+  "role": "Concept, design, and front-end development",
+  "content": [
+    { "heading": "One Source, Many Views", "paragraphs": ["All project information is maintained in one central location. The static build uses it to generate the general overview, thematic portfolios, and every individual project page."] },
+    { "heading": "Static and Context-Aware", "paragraphs": ["Project links preserve their origin in a URL parameter. The detail page validates this context and returns visitors to the appropriate thematic overview while remaining directly accessible."] }
+  ]
+}

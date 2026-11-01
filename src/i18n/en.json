@@ -1,0 +1,23 @@
+{
+  "_meta": { "locale": "en", "status": "published" },
+  "site": { "title": "Yannik – Portfolio", "description": "Portfolio covering game design, programming, hardware design, and web design." },
+  "navigation": { "home": "Home", "allProjects": "All Projects", "mainLabel": "Main navigation", "skipToContent": "Skip to content", "languageLabel": "Select language", "languageUnavailable": "coming soon" },
+  "home": { "eyebrow": "Portfolio", "title": "Hi, I'm {owner}.", "intro": "I create digital experiences at the intersection of design, code, and hardware.", "selectionEyebrow": "Selected work", "projectsTitle": "Projects", "viewAll": "View all projects" },
+  "portfolio": { "eyebrow": "Portfolio", "overviewEyebrow": "Overview", "allProjectsTitle": "All Projects", "allProjectsDescription": "Design, development, and physical prototypes in one overview.", "allProjectsMetaDescription": "All projects in the portfolio.", "projectCountOne": "{count} project", "projectCountOther": "{count} projects", "empty": "There are no projects in this portfolio yet.", "sectionLabel": "Projects in {portfolio}" },
+  "project": { "eyebrow": "Sample project", "view": "View project", "backToAll": "Back to all projects", "backToPortfolio": "Back to {portfolio}", "categoriesLabel": "Project categories", "year": "Year", "role": "Role", "imageUnavailable": "Preview for {project} is unavailable" },
+  "footer": { "copyright": "© {year} {owner}", "backToTop": "Back to top" },
+  "languageIndex": { "title": "Select a language", "description": "Choose the language for the portfolio.", "available": "Available", "unavailable": "Coming soon" },
+  "redirect": { "title": "Redirect", "message": "This page is now available at a language-specific address.", "link": "Go to the English page" },
+  "tags": {
+    "game-design": { "label": "Game Design" },
+    "programming": { "label": "Programming" },
+    "hardware-design": { "label": "Hardware Design" },
+    "web-design": { "label": "Web Design" }
+  },
+  "portfolios": {
+    "game-design": { "title": "Game Design", "description": "Game systems, interaction, and visual communication." },
+    "programming": { "title": "Programming", "description": "Technical concepts, prototypes, and robust implementations." },
+    "hardware-design": { "title": "Hardware Design", "description": "Physical interfaces, electronics, and functional prototypes." },
+    "web-design": { "title": "Web Design", "description": "Responsive interfaces and accessible digital presentation." }
+  }
+}

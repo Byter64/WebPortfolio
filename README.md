@@ -1,91 +1,100 @@
-# Portfolio
+# Webportfolio pflegen
 
-Ein mehrseitiges, vollständig statisch generiertes Portfolio für GitHub Pages – ohne Framework und ohne externe Laufzeitabhängigkeiten.
+Dieses Portfolio wird mit einem kleinen, abhängigenkeitsfreien Node.js-Generator vollständig statisch gebaut. Nur Dateien unter `src/` werden redaktionell gepflegt. Der Ordner `dist/` wird bei jedem Build gelöscht und neu erzeugt; Änderungen darin gehen bewusst verloren.
 
-## Inhalte und Übersetzungen pflegen
+## Struktur
 
-Sprachunabhängige Daten stehen in `data/projects.mjs`:
+```text
+src/
+  content/projects/<projekt>/  Projektmetadaten und Texte pro Sprache
+  data/                        Tags, Unterportfolios, Sprachen und Website-Daten
+  i18n/                        Allgemeine Oberflächentexte und Bezeichnungen
+  templates/                   Gemeinsame HTML-Templates
+  assets/                      Bilder und Flaggen
+  client/site.js               Kleine Browserfunktionen
+  styles.css                   Gemeinsames Design
+scripts/                       Build, Validierung und Tests
+dist/                          Generierte Website, niemals manuell bearbeiten
+```
 
-- `site` enthält Eigentümer und öffentliche Basis-URL.
-- `tags` enthält stabile, URL-taugliche Tag-IDs.
-- `projects` enthält Projekt-ID, Slug, Tags, Bildpfad und technische Angaben.
+## 1. Ein Projekt hinzufügen
 
-Alle sichtbaren Texte stehen getrennt davon in `locales/<sprache>.json`. `locales/de.json` enthält die vollständigen deutschen Oberflächen-, Kategorie- und Projekttexte. Projekt-ID, Tags und Bildpfade werden deshalb nicht pro Sprache dupliziert.
+1. Unter `src/content/projects/` einen neuen Ordner mit einem stabilen, kleingeschriebenen Namen anlegen.
+2. Darin `project.json` nach einem vorhandenen Beispiel erstellen. `id` bleibt dauerhaft stabil, `slug` bestimmt bewusst die URL. `published`, `featured` und `order` steuern Veröffentlichung, Startseite und Sortierung.
+3. Das Bild unter `src/assets/` ablegen und in `coverImage` relativ zu `src/` eintragen.
+4. Für jede Sprache eine Datei wie `de.json`, `en.json`, `es.json` oder `ja.json` mit Titel, Kurzbeschreibung, Alternativtext, Rolle und Inhaltsabschnitten anlegen.
+5. `npm test` ausführen. Übersichten und Unterportfolios werden automatisch aktualisiert.
 
-Aktuell sind Deutsch (`de`), Englisch (`en`), Spanisch (`es`) und Japanisch (`ja`) vollständig übersetzt und veröffentlicht. Deutsch bleibt die Standard- und Fallback-Sprache.
+## 2. Ein Projekt entfernen oder deaktivieren
 
-Für ein neues Projekt:
+Zum vorübergehenden Ausblenden in dessen `project.json` den Wert `published` auf `false` setzen. Beim nächsten Build wird keine Projektseite erzeugt und das Projekt verschwindet aus allen Übersichten. Zum endgültigen Entfernen kann der gesamte Projektordner gelöscht werden.
 
-1. Den sprachunabhängigen Datensatz in `data/projects.mjs` ergänzen.
-2. Bilddateien unter `assets/` ablegen.
-3. Unter `projects.<projekt-id>` in jeder veröffentlichten Sprachdatei Titel, Beschreibung, Alternativtext, Metadaten und Inhalt ergänzen.
-4. Build und Prüfungen ausführen.
+## 3. Tags vergeben
 
-## Eine neue Sprache hinzufügen
+In `project.json` stehen unter `tags` ausschließlich stabile IDs aus `src/data/tags.json`. Ein Projekt darf beliebig viele Tags besitzen. Die Unterportfolio-Zuordnung wird nur aus diesen Tags und den Portfolio-Regeln berechnet.
 
-Die unterstützten Sprachen werden zentral in `i18n/config.mjs` registriert. Eine neue Sprache erfordert keine kopierten Templates oder HTML-Dateien:
+## 4. Einen Tag anlegen
 
-1. Einen Eintrag mit Sprachcode, Gebietsschema, lesbarem Eigennamen, dekorativer Flagge und Schreibrichtung in `i18n/config.mjs` anlegen.
-2. `locales/<sprachcode>.json` nach der Struktur von `locales/de.json` erstellen und ausschließlich manuell übersetzen.
-3. Die Sprache zunächst mit `status: "draft"` registrieren. Der Übersetzungscheck zeigt alle noch fehlenden Einträge an.
-4. Nach vollständiger Übersetzung den Status auf `published` ändern.
-5. Build und Prüfungen ausführen.
+In `src/data/tags.json` einen eindeutigen Eintrag mit `id` und `order` ergänzen. Anschließend in jeder Datei unter `src/i18n/` den sichtbaren Namen unter `tags.<id>.label` eintragen. Unbekannte und doppelte Tags stoppen den Build mit einer verständlichen Fehlermeldung.
 
-Nur veröffentlichte Sprachen erhalten Seiten, Links, Sitemap-Einträge und `hreflang`-Verweise. Entwurfssprachen erscheinen in der Sprachauswahl als „in Vorbereitung“ und verlinken nicht auf nicht vorhandene Seiten. Deutsch ist Standard- und Fallback-Sprache; rohe Übersetzungsschlüssel gelangen nicht in die fertige Website.
+## 5. Ein Unterportfolio erstellen
 
-## Build und Prüfungen
+In `src/data/portfolios.json` einen Eintrag anlegen:
+
+- `id`: dauerhafte interne Kennung
+- `slug`: bewusst gewählter URL-Teil
+- `requiredTags`: Tags für die automatische Zuordnung
+- `match`: `any` für mindestens einen oder `all` für alle genannten Tags
+- `order`: Position in Navigation und Build
+- `enabled`: Sichtbarkeit des Unterportfolios
+
+Titel und Beschreibung werden anschließend in jeder Datei unter `src/i18n/` als `portfolios.<id>.title` und `portfolios.<id>.description` ergänzt.
+
+## 6. Ein Unterportfolio entfernen oder deaktivieren
+
+`enabled` in `src/data/portfolios.json` auf `false` setzen oder den Eintrag löschen. Projekte und Tags bleiben davon unberührt. Weil `dist/` vor jedem Build geleert wird, bleiben keine veralteten Seiten zurück.
+
+## 7. Ein Unterportfolio umbenennen
+
+Nur `portfolios.<id>.title` und bei Bedarf `description` in den Sprachdateien unter `src/i18n/` ändern. ID, Regeln und URL bleiben stabil.
+
+## 8. Die URL eines Unterportfolios ändern
+
+Den Wert `slug` in `src/data/portfolios.json` bewusst ändern. `id` nicht ändern, wenn Zuordnungen und Übersetzungsschlüssel bestehen bleiben sollen. Bei einer öffentlich verwendeten alten URL sollte zusätzlich eine gezielte Weiterleitung ergänzt werden.
+
+## 9. Die Sortierung ändern
+
+`order` in `src/data/tags.json`, `src/data/portfolios.json`, `src/data/languages.json` oder der jeweiligen `project.json` anpassen. Kleinere Werte erscheinen zuerst.
+
+## 10. Übersetzungen und Sprachen ergänzen
+
+Allgemeine Texte, Tag-Namen und Unterportfolio-Texte stehen in `src/i18n/<sprache>.json`. Lange Projekttexte stehen separat im jeweiligen Projektordner. Eine neue Sprache wird in `src/data/languages.json` registriert und erhält eine allgemeine Übersetzungsdatei sowie Projektdateien. Zunächst kann `status` auf `draft` stehen; nach vollständiger Übersetzung wird er auf `published` gesetzt. Deutsch ist die dokumentierte Standardsprache.
+
+## 11. Lokale Vorschau starten
 
 ```powershell
-node scripts/build.mjs
-node scripts/check-i18n.mjs
+npm run build
+python -m http.server 8000 --directory dist
+```
+
+Danach `http://127.0.0.1:8000/index.html` öffnen. Alle internen Links zeigen explizit auf `index.html`, sodass keine Ordneransichten erscheinen.
+
+## 12. Produktions-Build erstellen
+
+```powershell
+npm test
+```
+
+Dieser Befehl baut `dist/`, prüft Übersetzungen, das Inhaltsmodell, alle erzeugten Links, Sprachwechsel, Portfolio-Kontexte, Sitemap und SEO-Metadaten. Einzelne Schritte:
+
+```powershell
+npm run validate
+npm run build
 node scripts/test.mjs
 ```
 
-`check-i18n.mjs` meldet fehlende sowie nicht mehr verwendete Übersetzungsschlüssel. Bei veröffentlichten Sprachen führen fehlende Pflichttexte zu einem Fehler; bei Entwurfssprachen werden sie als Arbeitsliste ausgegeben. Im Produktions-Build fällt ein einzelner optionaler Text kontrolliert auf Deutsch zurück.
+## Validierung und Veröffentlichung
 
-Der Build erzeugt derzeit:
+Die Validierung meldet betroffene Datei, Feld und ID bei doppelten IDs oder Slugs, unbekannten Tags, ungültigen `any`/`all`-Regeln, fehlenden Pflichtfeldern, Bildern, Übersetzungen und Sprachcodes. Projektseiten akzeptieren nur aktive, für das Projekt tatsächlich passende Unterportfolio-Kontexte.
 
-- `index.html` als statische, sichtbare Sprachauswahl,
-- `<sprache>/index.html` als lokalisierte Startseite,
-- `<sprache>/projekte/index.html` als allgemeine Übersicht,
-- `<sprache>/portfolio/<tag>/index.html` für jeden Tag,
-- `<sprache>/projekte/<slug>/index.html` für jedes Projekt,
-- `sitemap.xml` mit ausschließlich tatsächlich veröffentlichten Seiten,
-- Weiterleitungen an den bisherigen, nicht lokalisierten URLs zur deutschen Version.
-
-Alle internen Seitenlinks verweisen explizit auf die jeweilige `index.html`. Dadurch funktionieren sie auch in Vorschauen, die Verzeichnis-URLs nicht automatisch auf eine Indexdatei auflösen.
-
-## Templates und Lokalisierung
-
-Der Generator verwendet kleine ES-Modul-Templates ohne Fremdpakete:
-
-- `templates/base.mjs` enthält HTML-Rahmen, lokalisierte Metadaten, Kopfbereich, Navigation, Sprachauswahl, `hreflang` und Fußzeile.
-- `templates/portfolio.mjs` erzeugt die allgemeine und die thematischen Übersichtsseiten.
-- `templates/project.mjs` erzeugt Projektseiten und den lokalisierten Zurück-Button.
-- `templates/components.mjs` enthält wiederverwendbare Projektkarten und Bilder.
-- `templates/helpers.mjs` erzeugt kanonische und relative, sprachspezifische URLs.
-- `i18n/index.mjs` lädt Übersetzungen, setzt den deutschen Fallback um und stellt Locale-Formatierung über `Intl` bereit.
-
-Das Browser-Skript `site.js` validiert auf Projektseiten den optionalen Herkunftskontext `?portfolio=game-design`. Bei einem gültigen Tag führt der Zurück-Button innerhalb derselben Sprache zur passenden Themenübersicht. Ohne oder mit ungültigem Kontext führt er zur allgemeinen lokalisierten Projektübersicht. Beim späteren Wechsel zwischen veröffentlichten Sprachen bleibt ein gültiger Kontext erhalten.
-
-Die Sprachauswahl ist ein natives Disclosure-Dropdown aus `<details>` und `<summary>`. Dadurch bleiben die statischen Sprachlinks auch ohne JavaScript erreichbar. `site.js` ergänzt synchronisiertes `aria-expanded`, Schließen mit Escape, Schließen bei Außenklick und den Erhalt eines gültigen Portfolio-Kontexts. Flagge, Anzeigename und regionales Locale werden ausschließlich in `i18n/config.mjs` gepflegt.
-
-## Lokale Vorschau
-
-Nach dem Build kann das Repository mit einem statischen Webserver ausgeliefert werden, zum Beispiel:
-
-```powershell
-python -m http.server 8000 --bind 127.0.0.1
-```
-
-Die Vorschau ist danach unter `http://127.0.0.1:8000/index.html` erreichbar.
-
-## Auf GitHub Pages veröffentlichen
-
-1. In `data/projects.mjs` die Eigenschaft `site.canonicalOrigin` auf die endgültige Pages-URL setzen.
-2. Dieses Verzeichnis in ein GitHub-Repository übertragen.
-3. Im Repository **Settings → Pages** öffnen.
-4. Unter **Build and deployment** die Quelle **Deploy from a branch** wählen.
-5. Den Branch `main` und den Ordner `/(root)` auswählen und speichern.
-
-Danach veröffentlicht GitHub die statischen Dateien. Vor jedem Push nach Inhalts- oder Übersetzungsänderungen Build und Prüfungen ausführen.
+Der Workflow `.github/workflows/pages.yml` führt `npm test` aus und veröffentlicht ausschließlich `dist/` über GitHub Pages. In den Repository-Einstellungen muss als Pages-Quelle **GitHub Actions** ausgewählt sein.

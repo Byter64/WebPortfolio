@@ -1,0 +1,10 @@
+{
+  "name": "webportfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-content.mjs && node scripts/check-i18n.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/build.mjs && node scripts/check-i18n.mjs && node scripts/test.mjs"
+  }
+}

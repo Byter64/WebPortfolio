@@ -1,0 +1,11 @@
+{
+  "title": "Sistema de portafolio",
+  "description": "Un portafolio generado de forma estática con datos de proyecto centralizados y vistas temáticas flexibles.",
+  "imageAlt": "Portafolio adaptable mostrado en un portátil y un teléfono inteligente",
+  "imageCaption": null,
+  "role": "Concepto, diseño y desarrollo front-end",
+  "content": [
+    { "heading": "Una fuente, muchas vistas", "paragraphs": ["Toda la información de los proyectos se mantiene en un único lugar. A partir de ella, el proceso de generación estática crea la vista general, los portafolios temáticos y cada página de proyecto."] },
+    { "heading": "Estático y consciente del contexto", "paragraphs": ["Los enlaces de los proyectos conservan su origen mediante un parámetro de URL. La página de detalle valida este contexto y devuelve a la vista temática correspondiente, sin dejar de ser accesible directamente."] }
+  ]
+}

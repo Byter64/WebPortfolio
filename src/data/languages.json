@@ -1,0 +1,6 @@
+[
+  { "code": "de", "locale": "de-DE", "nativeName": "Deutsch", "flagAsset": "assets/flags/de.svg", "direction": "ltr", "status": "published", "order": 10 },
+  { "code": "en", "locale": "en-GB", "nativeName": "English", "flagAsset": "assets/flags/gb.svg", "direction": "ltr", "status": "published", "order": 20 },
+  { "code": "es", "locale": "es-ES", "nativeName": "Español", "flagAsset": "assets/flags/es.svg", "direction": "ltr", "status": "published", "order": 30 },
+  { "code": "ja", "locale": "ja-JP", "nativeName": "日本語", "flagAsset": "assets/flags/ja.svg", "direction": "ltr", "status": "published", "order": 40 }
+]

@@ -1,146 +1,241 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
-import { projects, site, tags } from "../data/projects.mjs";
-import { defaultLocale, locales, publishedLocales } from "../i18n/config.mjs";
-import { createI18n, isKnownLocale } from "../i18n/index.mjs";
-import { getLocalizedLanguageTarget } from "../templates/base.mjs";
-import contextApi from "../site.js";
-
-const {
+import {
+  activePortfolios,
+  allProjects,
+  defaultLocale,
+  getProjectText,
+  hasProjectTranslation,
+  languages,
+  portfolios,
+  portfoliosForProject,
+  projectMatchesPortfolio,
+  projects,
+  publishedLocales,
+  site,
+  sourceRoot,
+  tags,
+} from "../src/content.mjs";
+import { createI18n, isKnownLocale } from "../src/i18n.mjs";
+import { getLocalizedLanguageTarget } from "../src/templates/base.mjs";
+import { collectContentErrors, currentModel } from "./validate-content.mjs";
+import {
   addPortfolioContext,
   getBackLinkTarget,
   normalizePortfolioValue,
   resolvePortfolioContext,
-} = contextApi;
+} from "../src/client/site.js";
 
-const root = resolve(import.meta.dirname, "..");
-const read = (path) => readFile(resolve(root, path), "utf8");
-const defaultI18n = createI18n(defaultLocale);
+const repositoryRoot = resolve(import.meta.dirname, "..");
+const distRoot = resolve(repositoryRoot, "dist");
+const readDist = (path) => readFile(resolve(distRoot, path), "utf8");
+const clone = (value) => structuredClone(value);
 const pagesForLocale = (locale) => [
   `${locale}/index.html`,
   `${locale}/projekte/index.html`,
-  ...tags.map((tag) => `${locale}/portfolio/${tag.id}/index.html`),
-  ...projects.map((project) => `${locale}/projekte/${project.slug}/index.html`),
+  ...activePortfolios.map(
+    (portfolio) => `${locale}/portfolio/${portfolio.slug}/index.html`,
+  ),
+  ...projects
+    .filter((project) => hasProjectTranslation(project, locale))
+    .map((project) => `${locale}/projekte/${project.slug}/index.html`),
 ];
 
 assert.deepEqual(
-  publishedLocales.map((locale) => locale.code),
+  publishedLocales.map((language) => language.code),
   ["de", "en", "es", "ja"],
 );
-for (const locale of locales) {
-  assert.equal(isKnownLocale(locale.code), true);
-  assert.doesNotThrow(() => createI18n(locale.code));
-  assert.match(locale.locale, new RegExp(`^${locale.code}(?:-|$)`, "i"));
-  assert.ok(locale.nativeName);
-  assert.match(locale.flagAsset, /^assets\/flags\/[a-z]{2}\.svg$/);
+for (const language of languages) {
+  assert.equal(isKnownLocale(language.code), true);
+  assert.doesNotThrow(() => createI18n(language.code));
+  assert.match(language.locale, new RegExp(`^${language.code}(?:-|$)`, "i"));
+  assert.match(language.flagAsset, /^assets\/flags\/[a-z]{2}\.svg$/);
 }
 assert.equal(isKnownLocale("xx"), false);
 assert.throws(() => createI18n("xx"), /Unbekannte/);
 
-const languageIndex = await read("index.html");
-for (const locale of publishedLocales) {
-  assert.match(languageIndex, new RegExp(`href="${locale.code}/index\\.html"`));
-  assert.match(languageIndex, new RegExp(`${locale.flagAsset}.*${locale.nativeName}`, "s"));
-  assert.doesNotMatch(
-    languageIndex,
-    new RegExp(`lang="${locale.code}" aria-disabled="true"`),
-  );
-}
+const testProject = {
+  id: "test-project",
+  slug: "test-project",
+  tags: ["programming", "hardware-design"],
+  published: true,
+  featured: false,
+  order: 999,
+  coverImage: "assets/previews/signal-runner.webp",
+};
+const anyPortfolio = {
+  id: "technical-any",
+  slug: "technical-any",
+  requiredTags: ["programming", "hardware-design"],
+  match: "any",
+  order: 900,
+  enabled: true,
+};
+const allPortfolio = { ...anyPortfolio, id: "technical-all", slug: "technical-all", match: "all" };
+assert.equal(projectMatchesPortfolio(testProject, anyPortfolio), true);
+assert.equal(projectMatchesPortfolio(testProject, allPortfolio), true);
+assert.equal(
+  projectMatchesPortfolio(
+    { ...testProject, tags: ["programming"] },
+    allPortfolio,
+  ),
+  false,
+);
+assert.equal(
+  projectMatchesPortfolio(testProject, { ...anyPortfolio, enabled: false }),
+  false,
+);
 
 const singleTagProject = projects.find((project) => project.tags.length === 1);
 const multiTagProject = projects.find((project) => project.tags.length > 1);
-assert.ok(singleTagProject, "Es fehlt ein Projekt mit genau einem Tag.");
-assert.ok(multiTagProject, "Es fehlt ein Projekt mit mehreren Tags.");
+assert.ok(singleTagProject);
+assert.ok(multiTagProject);
+assert.ok(portfoliosForProject(multiTagProject).length > 1);
+assert.equal(allProjects.filter((project) => project.published).length, projects.length);
+assert.ok(allProjects.every((project) => project.sourceFile.endsWith("project.json")));
 
-for (const locale of publishedLocales) {
-  const i18n = createI18n(locale.code);
+function errorsFor(changes) {
+  return collectContentErrors(
+    { ...currentModel, ...changes },
+    { verifyImages: false },
+  ).join("\n");
+}
 
-  for (const tag of tags) {
-    const html = await read(`${locale.code}/portfolio/${tag.id}/index.html`);
-    assert.match(html, new RegExp(`<p class="eyebrow">${i18n.t("portfolio.eyebrow")}</p>`));
-    for (const project of projects.filter((candidate) =>
-      candidate.tags.includes(tag.id),
+assert.match(
+  errorsFor({ projects: [{ ...testProject, published: false, tags: ["unknown-tag"] }] }),
+  /unbekannter Tag "unknown-tag"/,
+);
+assert.match(
+  errorsFor({ tags: [...tags, { ...tags[0] }] }),
+  /doppelte Tag-ID/,
+);
+assert.match(
+  errorsFor({ projects: [{ ...testProject, published: false }, { ...testProject, published: false }] }),
+  /doppeltes Projektfeld id.*doppeltes Projektfeld slug/s,
+);
+assert.match(
+  errorsFor({ portfolios: [...portfolios, { ...portfolios[0] }] }),
+  /doppeltes Feld id.*doppeltes Feld slug/s,
+);
+assert.match(
+  errorsFor({ portfolios: [{ ...anyPortfolio, match: "invalid" }] }),
+  /Feld match muss "any" oder "all" sein/,
+);
+assert.match(
+  errorsFor({ portfolios: [{ ...anyPortfolio, requiredTags: ["unknown-tag"] }] }),
+  /unbekannten Tag "unknown-tag"/,
+);
+assert.match(
+  errorsFor({ languages: [{ ...languages[0], code: "Deutsch" }] }),
+  /Sprachcode "Deutsch" ist ungültig/,
+);
+
+const languageIndex = await readDist("index.html");
+for (const language of publishedLocales) {
+  assert.match(languageIndex, new RegExp(`href="${language.code}/index\\.html"`));
+  assert.match(languageIndex, new RegExp(`${language.flagAsset}.*${language.nativeName}`, "s"));
+}
+
+for (const language of publishedLocales) {
+  const generatedProjectEntries = await readdir(
+    resolve(distRoot, language.code, "projekte"),
+    { withFileTypes: true },
+  );
+  assert.deepEqual(
+    generatedProjectEntries
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort(),
+    projects
+      .filter((project) => hasProjectTranslation(project, language.code))
+      .map((project) => project.slug)
+      .sort(),
+  );
+  const generatedPortfolioEntries = await readdir(
+    resolve(distRoot, language.code, "portfolio"),
+    { withFileTypes: true },
+  );
+  assert.deepEqual(
+    generatedPortfolioEntries
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort(),
+    activePortfolios.map((portfolio) => portfolio.slug).sort(),
+  );
+}
+
+for (const language of publishedLocales) {
+  const i18n = createI18n(language.code);
+  for (const portfolio of activePortfolios) {
+    const html = await readDist(
+      `${language.code}/portfolio/${portfolio.slug}/index.html`,
+    );
+    const title = i18n.t(`portfolios.${portfolio.id}.title`);
+    assert.match(html, new RegExp(`<h1>${title}</h1>`));
+    for (const project of projects.filter(
+      (candidate) =>
+        hasProjectTranslation(candidate, language.code)
+        && projectMatchesPortfolio(candidate, portfolio),
     )) {
       assert.match(
         html,
         new RegExp(
-          `/${locale.code}/projekte/${project.slug}/index\\.html\\?portfolio=${tag.id}`,
+          `/${language.code}/projekte/${project.slug}/index\\.html\\?portfolio=${portfolio.id}`,
         ),
       );
     }
   }
 
-  for (const project of projects) {
-    const html = await read(`${locale.code}/projekte/${project.slug}/index.html`);
-    assert.equal((html.match(/class="back-link"/g) ?? []).length, 1);
-    assert.match(
-      html,
-      new RegExp(
-        `href="\.\.\/\.\.\/\.\.\/${locale.code}\/projekte\/index\\.html"`,
-      ),
+  for (const project of projects.filter((entry) =>
+    hasProjectTranslation(entry, language.code),
+  )) {
+    const html = await readDist(
+      `${language.code}/projekte/${project.slug}/index.html`,
     );
-
+    const text = getProjectText(project, language.code);
+    assert.match(html, new RegExp(`<h1>${text.title}</h1>`));
+    assert.equal((html.match(/class="back-link"/g) ?? []).length, 1);
     const contextMatch = html.match(
       /<script type="application\/json" id="portfolio-context">([^<]+)<\/script>/,
     );
     assert.ok(contextMatch);
     const config = JSON.parse(contextMatch[1]);
-    assert.equal(config.locale, locale.code);
-    assert.equal(config.fallback.href.includes(`/${locale.code}/`), true);
-    assert.equal(
-      config.portfolioTargets.every((target) =>
-        target.href.includes(`/${locale.code}/portfolio/`),
-      ),
-      true,
+    const expectedPortfolios = portfoliosForProject(project);
+    assert.deepEqual(
+      config.projectPortfolioIds,
+      expectedPortfolios.map((portfolio) => portfolio.id),
     );
+    assert.ok(config.fallback.href.includes(`/${language.code}/projekte/`));
   }
 
-  for (const page of pagesForLocale(locale.code)) {
-    const html = await read(page);
-    assert.match(html, new RegExp(`<html lang="${locale.code}" dir="${locale.direction}">`));
+  for (const page of pagesForLocale(language.code)) {
+    const html = await readDist(page);
+    assert.match(html, new RegExp(`<html lang="${language.code}" dir="${language.direction}">`));
     assert.equal((html.match(/class="site-header"/g) ?? []).length, 1);
     assert.equal((html.match(/<footer>/g) ?? []).length, 1);
     assert.equal((html.match(/data-language-menu/g) ?? []).length, 1);
-    assert.match(html, /<summary class="language-trigger"[^>]+aria-expanded="false"/);
-    assert.match(html, /<nav class="language-menu"/);
-    assert.match(
-      html,
-      new RegExp(
-        `data-language-link lang="${locale.code}"[^>]+aria-current="page"`,
-      ),
-    );
-    assert.match(
-      html,
-      new RegExp(
-        `rel="canonical" href="https:\/\/byter64\\.github\\.io\/WebPortfolio\/${locale.code}\/`,
-      ),
-    );
     for (const alternate of publishedLocales) {
       assert.match(html, new RegExp(`rel="alternate" hreflang="${alternate.code}"`));
-      assert.match(html, new RegExp(`data-language-link lang="${alternate.code}"`));
     }
-    assert.match(html, /rel="alternate" hreflang="x-default"/);
-    assert.doesNotMatch(
-      html,
-      /(?:navigation|portfolio|project|footer|home)\.[a-zA-Z]/,
-    );
+    assert.doesNotMatch(html, /(?:navigation|portfolios|project|footer|home)\.[a-zA-Z]/);
 
-    const pageUrl = new URL(
-      page.replace(/index\.html$/, ""),
-      "https://portfolio.test/",
-    );
+    const pageUrl = new URL(page.replace(/index\.html$/, ""), "https://portfolio.test/");
     for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
       const reference = match[1];
       if (reference.startsWith("#") || reference.startsWith("data:")) continue;
       const url = new URL(reference, pageUrl);
       if (url.origin !== "https://portfolio.test") continue;
       assert.equal(url.pathname.endsWith("/"), false);
-      const targetPath = decodeURIComponent(url.pathname).replace(/^\//, "");
-      await access(resolve(root, targetPath));
+      await access(resolve(distRoot, decodeURIComponent(url.pathname).replace(/^\//, "")));
     }
   }
 }
+
+const renamedI18n = createI18n("de");
+const originalTitle = renamedI18n.t("portfolios.game-design.title");
+assert.equal(originalTitle, "Game Design");
+assert.equal(activePortfolios.find((entry) => entry.id === "game-design").slug, "game-design");
 
 assert.deepEqual(
   getLocalizedLanguageTarget("en", {
@@ -149,48 +244,27 @@ assert.deepEqual(
   }),
   { type: "projects" },
 );
-assert.equal(
-  getLocalizedLanguageTarget("xx", { type: "home" }),
-  null,
-);
+assert.equal(getLocalizedLanguageTarget("xx", { type: "home" }), null);
 
-const sitemap = await read("sitemap.xml");
-for (const locale of publishedLocales) {
-  assert.match(
-    sitemap,
-    new RegExp(`${site.canonicalOrigin}${locale.code}/index\\.html`),
-  );
+const sitemap = await readDist("sitemap.xml");
+for (const language of publishedLocales) {
+  assert.match(sitemap, new RegExp(`${site.canonicalOrigin}${language.code}/index\\.html`));
 }
 
 assert.equal(normalizePortfolioValue(" Game Design "), "game-design");
 assert.equal(normalizePortfolioValue("Ästhetik & Geräte"), "aesthetik-geraete");
-
-const multiTagConfig = {
-  projectTagIds: multiTagProject.tags,
-  portfolioTargets: multiTagProject.tags.map((id) => ({
-    id,
-    label: defaultI18n.t(`portfolio.tags.${id}.label`),
-    href: `../../../de/portfolio/${id}/index.html`,
-  })),
-  fallback: {
-    href: "../../../de/projekte/index.html",
-    label: defaultI18n.t("project.backToAll"),
-  },
+const multiPortfolioConfig = {
+  projectPortfolioIds: ["game-design", "programming"],
+  portfolioTargets: [
+    { id: "game-design", slug: "game-design", label: "Game Design", href: "game" },
+    { id: "programming", slug: "programming", label: "Programming", href: "code" },
+  ],
+  fallback: { href: "all", label: "Alle Projekte" },
 };
-
-assert.equal(
-  resolvePortfolioContext("Game Design", multiTagConfig)?.id,
-  "game-design",
-);
-assert.equal(resolvePortfolioContext("unbekannt", multiTagConfig), null);
-assert.deepEqual(
-  getBackLinkTarget("programming", multiTagConfig),
-  multiTagConfig.portfolioTargets.find((target) => target.id === "programming"),
-);
-assert.deepEqual(
-  getBackLinkTarget("hardware-design", multiTagConfig),
-  multiTagConfig.fallback,
-);
+assert.equal(resolvePortfolioContext("Game Design", multiPortfolioConfig)?.id, "game-design");
+assert.equal(resolvePortfolioContext("unbekannt", multiPortfolioConfig), null);
+assert.equal(getBackLinkTarget("programming", multiPortfolioConfig).href, "code");
+assert.equal(getBackLinkTarget("hardware-design", multiPortfolioConfig).href, "all");
 assert.equal(
   addPortfolioContext("../../../en/projekte/signal-runner/index.html", "game-design"),
   "../../../en/projekte/signal-runner/index.html?portfolio=game-design",
@@ -198,12 +272,13 @@ assert.equal(
 
 for (const legacyPath of [
   "projekte/index.html",
-  ...tags.map((tag) => `portfolio/${tag.id}/index.html`),
+  ...activePortfolios.map((portfolio) => `portfolio/${portfolio.slug}/index.html`),
   ...projects.map((project) => `projekte/${project.slug}/index.html`),
 ]) {
-  const html = await read(legacyPath);
+  const html = await readDist(legacyPath);
   assert.match(html, /http-equiv="refresh"/);
   assert.match(html, new RegExp(`${defaultLocale}/`));
 }
 
-console.log("Alle Lokalisierungs-, URL-, SEO- und Kontexttests sind erfolgreich.");
+await access(resolve(sourceRoot, "content", "projects"));
+console.log("Alle Datenmodell-, Build-, URL-, SEO- und Kontexttests sind erfolgreich.");

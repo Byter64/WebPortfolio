@@ -1,0 +1,11 @@
+{
+  "title": "Signal Runner",
+  "description": "A fast-paced game concept combining movement, rhythm, and clear visual cues.",
+  "imageAlt": "Futuristic player character on a glowing track",
+  "imageCaption": null,
+  "role": "Concept, game design, and prototyping",
+  "content": [
+    { "heading": "The Idea", "paragraphs": ["Signal Runner explores how a small number of precise cues can make a fast-paced experience easy to read. Movement and obstacles follow a shared visual rhythm."] },
+    { "heading": "The Prototype", "paragraphs": ["The playable prototype focuses on movement, immediate feedback, and short iteration cycles. Systems and visuals were developed together so that every mechanic remains easy to understand."] }
+  ]
+}

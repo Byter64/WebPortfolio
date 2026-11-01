@@ -1,0 +1,6 @@
+[
+  { "id": "game-design", "slug": "game-design", "requiredTags": ["game-design"], "match": "any", "order": 10, "enabled": true },
+  { "id": "programming", "slug": "programming", "requiredTags": ["programming"], "match": "any", "order": 20, "enabled": true },
+  { "id": "hardware-design", "slug": "hardware-design", "requiredTags": ["hardware-design"], "match": "any", "order": 30, "enabled": true },
+  { "id": "web-design", "slug": "web-design", "requiredTags": ["web-design"], "match": "any", "order": 40, "enabled": true }
+]

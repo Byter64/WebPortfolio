@@ -1,0 +1,11 @@
+{
+  "title": "Modular Input Deck",
+  "description": "Un panel de control personalizable para flujos de trabajo creativos y prototipos rápidos de hardware.",
+  "imageAlt": "Dispositivo de entrada modular con controles giratorios e interruptores",
+  "imageCaption": null,
+  "role": "Diseño industrial y prototipado de hardware",
+  "content": [
+    { "heading": "Diseñado para ser modular", "paragraphs": ["El panel combina controles giratorios, botones y deslizadores en módulos intercambiables. De este modo, la interfaz puede adaptarse a diferentes tareas."] },
+    { "heading": "Del montaje a la interacción", "paragraphs": ["El diseño tiene en cuenta desde el principio el montaje, el tendido de cables y la orientación táctil. Los indicadores de estado en cian trasladan el lenguaje visual del portafolio al producto físico."] }
+  ]
+}

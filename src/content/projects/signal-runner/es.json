@@ -1,0 +1,11 @@
+{
+  "title": "Signal Runner",
+  "description": "Un concepto de juego dinámico que combina movimiento, ritmo y señales visuales claras.",
+  "imageAlt": "Personaje futurista corriendo por una pista luminosa",
+  "imageCaption": null,
+  "role": "Concepto, diseño de videojuegos y prototipado",
+  "content": [
+    { "heading": "La idea", "paragraphs": ["Signal Runner explora cómo unas pocas señales precisas pueden hacer que una experiencia dinámica resulte fácil de interpretar. El movimiento y los obstáculos siguen un ritmo visual común."] },
+    { "heading": "El prototipo", "paragraphs": ["El prototipo jugable se centra en la sensación de movimiento, la respuesta inmediata y los ciclos breves de iteración. Los sistemas y el diseño visual se desarrollaron conjuntamente para que cada mecánica resulte clara."] }
+  ]
+}
