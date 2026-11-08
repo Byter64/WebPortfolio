@@ -1,0 +1,7 @@
+---
+import { skills, levels, projects, type Lang } from '../data/portfolio';
+interface Props { lang: Lang; sample?: boolean; }
+const { lang, sample = false } = Astro.props;
+const de = lang === 'de';
+---
+<div class="skills-grid">{(sample ? skills.slice(0,2) : skills).map(skill => <article class="skill"><div class="skill-heading"><h3>{de ? skill.de ?? skill.name : skill.name}</h3><span class="mono">LVL {String(skill.level).padStart(2,'0')}<span class="muted"> / 04</span></span></div><div class="segments" role="img" aria-label={`${de ? skill.de ?? skill.name : skill.name}: ${levels[skill.level - 1][lang]}, ${skill.level}/4`}>{[1,2,3,4].map(n => <span class:list={{ filled: n <= skill.level }}></span>)}</div><p class="skill-level">{levels[skill.level - 1][lang]}</p><div class="skill-evidence">{skill.projects.length ? skill.projects.map(slug => <a href={`/${lang}/projects/${slug}/`}>{projects.find(p => p.slug === slug)?.title} ↗</a>) : skill.area === 'Audio' ? <a href={`/${lang}/#music`}>{de ? 'Eigene Soundtracks' : 'Original soundtracks'} ↗</a> : <a href="/Yannik-Stamm-Portfolio.pdf#page=4">{de ? 'Erfahrung laut Portfolio' : 'Experience listed in portfolio'} ↗</a>}</div></article>)}</div>

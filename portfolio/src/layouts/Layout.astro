@@ -1,0 +1,46 @@
+---
+import '@fontsource/space-grotesk/latin-600.css';
+import '@fontsource/space-grotesk/latin-700.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '../styles/global.css';
+import type { Lang } from '../data/portfolio';
+interface Props { lang: Lang; title?: string; description?: string; section?: string; }
+const { lang, title = 'Systems of Play', description, section = '' } = Astro.props;
+const de = lang === 'de';
+const other = de ? 'en' : 'de';
+const alternate = Astro.url.pathname.replace(/^\/(en|de)/, `/${other}`);
+const desc = description ?? (de ? 'Yannik Stamm — Technical Game Designer. Spielsysteme, Gameplay-Programmierung und Game Feel. Entdecke WUEHANS und ausgewählte Spiele.' : 'Yannik Stamm — Technical Game Designer. Game systems, gameplay programming and game feel. Explore WUEHANS and selected games.');
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={desc} /><meta name="theme-color" content="#141817" />
+    <meta property="og:title" content={`${title} — Yannik Stamm`} /><meta property="og:description" content={desc} /><meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" hreflang={other} href={alternate} />
+    <title>{title} — Yannik Stamm</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{de ? 'Zum Inhalt' : 'Skip to content'}</a>
+    <header class="site-header wrap">
+      <a class="brand" href={`/${lang}/`} aria-label="Yannik Stamm — Home"><span class="brand-mark" aria-hidden="true">ys<span>_</span></span><span>Yannik Stamm<span class="brand-sub">Technical Game Designer</span></span></a>
+      <nav aria-label={de ? 'Hauptnavigation' : 'Main navigation'}>
+        <a href={`/${lang}/#work`}>{de ? 'Projekte' : 'Work'}</a>
+        <a href={`/${lang}/#skills`}>Skills</a>
+        <a href={`/${lang}/#about`}>{de ? 'Profil' : 'About'}</a>
+      </nav>
+      <div class="header-actions"><a class="language" href={alternate} lang={other} hreflang={other} aria-label={de ? 'Switch to English' : 'Zu Deutsch wechseln'}>{de ? 'EN' : 'DE'} <span aria-hidden="true">↗</span></a><a class="contact-link" href={`/${lang}/#contact`}>{de ? 'Kontakt' : 'Let’s talk'} <span aria-hidden="true">↗</span></a></div>
+    </header>
+    <div class="viewbar wrap"><span class="mono"><i class="status-dot"></i> SYSTEMS OF PLAY <span class="viewbar-extra">/ PORTFOLIO 01</span></span><div class="view-switch" aria-label={de ? 'Ansicht' : 'View'}><a aria-current={section === 'home' ? 'page' : undefined} href={`/${lang}/`}>{de ? 'Portfolio' : 'Portfolio'}</a><a aria-current={section === 'board' ? 'page' : undefined} href={`/${lang}/design/`}>Designboard</a></div></div>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap"><a class="brand-mark small-mark" href={`/${lang}/`} aria-label="Home">ys<span>_</span></a><p>Yannik Stamm <span>© {new Date().getFullYear()}</span></p><a href={`/${lang}/design/`}>Designboard ↗</a><a href="/Yannik-Stamm-Portfolio.pdf" download>Portfolio PDF ↓</a><a href="#main">{de ? 'Nach oben' : 'Back to top'} ↑</a></footer>
+    <script>
+      document.querySelectorAll<HTMLAnchorElement>('.language').forEach(link => {
+        link.addEventListener('click', () => { if (location.hash) link.hash = location.hash; });
+      });
+    </script>
+  </body>
+</html>

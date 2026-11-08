@@ -1,0 +1,12 @@
+---
+import type { Project, Lang } from '../data/portfolio';
+import Media from './Media.astro';
+interface Props { project: Project; lang: Lang; small?: boolean; }
+const { project: p, lang, small = false } = Astro.props;
+---
+<article class:list={['project-card', { 'project-small': small }]}>
+  <a class="project-image" href={`/${lang}/projects/${p.slug}/`} tabindex="-1" aria-hidden="true"><Media name={p.image} lang={lang} /><span class="image-arrow" aria-hidden="true">↗</span><span class="image-number mono">{p.number} / {p.year}</span></a>
+  <div class="project-meta mono"><span>{p.tags[0]}</span><span>{p.year}</span></div>
+  <h3><a href={`/${lang}/projects/${p.slug}/`}>{p.title} <span aria-hidden="true">↗</span></a></h3>
+  <p>{p.summary[lang]}</p><p class="contribution"><span>{lang === 'de' ? 'Mein Beitrag' : 'My contribution'}</span>{p.contribution[lang]}</p>
+</article>

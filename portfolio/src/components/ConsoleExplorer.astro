@@ -1,0 +1,29 @@
+---
+import { hotspots, type Lang } from '../data/portfolio';
+import Media from './Media.astro';
+interface Props { lang: Lang; compact?: boolean; }
+const { lang, compact = false } = Astro.props;
+const de = lang === 'de';
+---
+<div class:list={['console-explorer', { compact }]} data-explorer>
+  <div class="console-stage">
+    <div class="stage-cross cross-a" aria-hidden="true">+</div><div class="stage-cross cross-b" aria-hidden="true">+</div>
+    <span class="stage-label mono">WUEHANS / FPGA CONSOLE</span>
+    <Media name="console" lang={lang} eager />
+    <div class="hotspot-pins" aria-label={de ? 'Konsole erkunden' : 'Explore the console'}>{hotspots.map((h, i) => <button class={`pin pin-${h.id}`} type="button" data-select={i} aria-label={`${h.number} — ${h.label[lang]}`} aria-controls={`console-panel-${h.id}`} aria-pressed={i === 0 ? 'true' : 'false'}>{h.number}<span class="pin-label">{h.label[lang]}</span></button>)}</div>
+    <span class="stage-caption mono">{de ? 'EIGENE HARDWARE. ECHTE SPIELE.' : 'CUSTOM HARDWARE. REAL GAMES.'}</span>
+  </div>
+  <div class="console-controls"><span class="mono explorer-prompt">{de ? 'Innenleben erkunden' : 'Explore the inside'} <span aria-hidden="true">↓</span></span><div class="hotspot-buttons">{hotspots.map((h,i) => <button type="button" data-select={i} aria-pressed={i === 0 ? 'true' : 'false'} aria-controls={`console-panel-${h.id}`}><span class="mono">{h.number}</span> {h.label[lang]}</button>)}</div></div>
+  <div class="console-panels" aria-live="polite">{hotspots.map((h,i) => <section id={`console-panel-${h.id}`} data-panel={i} hidden={i !== 0} class="console-panel" aria-labelledby={`console-title-${h.id}`} tabindex="0"><div><span class="eyebrow">{h.number} / {h.label[lang]}</span><h3 id={`console-title-${h.id}`}>{h.title[lang]}</h3><p>{h.body[lang]}</p><a class="text-link" href={`/${lang}/projects/wuehans/#${h.id}`}>{de ? 'In der Fallstudie ansehen' : 'Explore the case study'} <span aria-hidden="true">↗</span></a></div><a class="panel-evidence" href={`/media/${h.image}-1280.webp`} target="_blank" rel="noopener" aria-label={de ? 'Bildbeleg in voller Größe öffnen' : 'Open visual evidence at full size'}><Media name={h.image} lang={lang} /><span class="mono">{de ? 'BILDBELEG ↗' : 'VISUAL EVIDENCE ↗'}</span></a></section>)}</div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-explorer]').forEach(explorer => {
+    explorer.querySelectorAll<HTMLButtonElement>('[data-select]').forEach(button => {
+      button.addEventListener('click', () => {
+        const selected = button.dataset.select;
+        explorer.querySelectorAll<HTMLButtonElement>('[data-select]').forEach(item => item.setAttribute('aria-pressed', String(item.dataset.select === selected)));
+        explorer.querySelectorAll<HTMLElement>('[data-panel]').forEach(panel => { panel.hidden = panel.dataset.panel !== selected; });
+      });
+    });
+  });
+</script>
